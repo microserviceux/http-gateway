@@ -1,0 +1,39 @@
+{
+  "name": "MGateway",
+  "version": "0.0.1",
+  "description": "HTTP to Muon RESTful API",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cistechfutures/mgateway.git"
+  },
+  "keywords": [
+    "Muon",
+    "REST",
+    "API"
+  ],
+  "author": "NJW",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cistechfutures/mgateway/issues"
+  },
+  "homepage": "https://github.com/cistechfutures/mgateway",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "callsite": "^1.0.0",
+    "colors": "^1.1.2",
+    "express": "^4.13.3",
+    "muon-core": "^39.2.0-0",
+    "stack-trace": "0.0.9",
+    "winston": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "debug": "^2.2.0",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
+  }
+}
