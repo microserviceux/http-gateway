@@ -55,7 +55,7 @@ describe('DemoApp API Testing ', function(){
             done();
         });
     }); 
-
+/*
     //Check Service & Endpoint is responding
     it('should return a Default response from Endpoints via POST', function(done){
         api.post('/test_service/test_endpoint')
@@ -74,4 +74,5 @@ describe('DemoApp API Testing ', function(){
             done();
         });
     }); 
+*/
 });
