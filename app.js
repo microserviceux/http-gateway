@@ -54,7 +54,7 @@ function buildPayload(type, url, query, bod) {
 		
 		debug('New projection requested');
 
-		var projName 	= query['projection-name'] || bod['projection-name'];
+		var projName 	= query['projectionname'] || bod['projectionname'];
 		var lang 			= query['language'] || bod['language'];
 		var reduction = bod.reduction;
 
@@ -123,7 +123,7 @@ router.route('/discover')
 router.route('/:servicename/:endpoint')
 
 	// go to the service endpoint
-	.get(function(req, res) {
+	.get(function(req, res) {	
 		
 		debug(req.query);
 
