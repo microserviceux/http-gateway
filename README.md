@@ -45,12 +45,12 @@ To insert an event into an eventstore - use a query parameter to define the type
 Creates an event object in the 'photon' eventstore that looks like
 
 ```JSON
-{user :{
-    first: Charlie,
-    last: Brown,
-    password: peanuts,
-    stream: users,
-    id: 00001254
+{"user" :{
+    "first": "Charlie",
+    "last": "Brown",
+    "password": "peanuts",
+    "stream": "users",
+    "id": "00001254"
     }}
 ```
 
@@ -61,11 +61,11 @@ To create a new projection in an eventstore we ONLY use body (x-www-form-urlenco
 'projectionname=zippy&stream=testing&language=javascript&reduction=***Some+suitably+complicated+JS+function+***' 'http://localhost:9001/photon/projections'
 ```
 
-Would create a new projection called 'zippy' in the 'photon' eventstore. The projection would work on the 'testing' stream and would perform the function outlined in the reduction string. The reduction function is written in javascript.
+Would create a new projection called 'zippy' in the 'photon' eventstore. The projection would work on the 'testing' stream and would perform the function outlined in the reduction string. The reduction function is written in the 'javascript' language.
 
 ### Examples
 
-The following examples are the curl calls that are the equivalent to part of the Mocha tests.
+The following examples are the curl equivalents to the calls made as part of the Mocha testing.
 
 See if the Gateway respondes
 ```bash
