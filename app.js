@@ -47,15 +47,16 @@ catch(err){
 function buildPayload(type, url, query, bod) {
 	var thisEvent = {};
 
+	var stream = query.stream || bod.stream;
+
 	//check for projection or event
 	if (type === 'projections') {
 		
 		debug('New projection requested');
 
-		var stream = query.stream || bod.stream;
-		var projName = query['projection-name'] || bod['projection-name'];
-		var lang = query['language'] || bod['language'];
-		var reduction = "function eventHandler(state, event) {  var user = event.payload.user;  var key = user.last.replace(\/ \/g,\'\')  if (!(key in state)) {state[key] = {};  }  state[key].id = user.id;  state[key].fullname = user.first + \' \' + user.last;  var username = null;  if(user.last.length > 8) {username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();  }  else {username = (user.last + user.first.charAt(0)).toLowerCase();  }  state[key].username = username.replace(\/ \/g,\'\');  state[key].first = user.first;  state[key].last = user.last;  state[key].password = user.password;  return state;}";
+		var projName 	= query['projection-name'] || bod['projection-name'];
+		var lang 			= query['language'] || bod['language'];
+		var reduction = bod.reduction;
 
 		//Create projection object for injection into EventStore
   	thisEvent = {
@@ -73,7 +74,6 @@ function buildPayload(type, url, query, bod) {
 
 		debug("New event to be inserted");
 
-		var stream = query.stream || bod.stream;
 		var item = query.item;
 
 		var thisPayload = {};
@@ -90,7 +90,7 @@ function buildPayload(type, url, query, bod) {
 
    	return thisEvent;
 
-	};
+	}
 }
 
 
@@ -127,7 +127,7 @@ router.route('/:servicename/:endpoint')
 		
 		debug(req.query);
 
-		debug("Attempting to fire get to the " + req.params.endpoint + " on " + req.params.servicename);
+		debug("Attempting to get to the " + req.params.endpoint + " on " + req.params.servicename);
 
 	    try{
 	      //query: url, callback, params
@@ -165,7 +165,7 @@ router.route('/:servicename/:endpoint')
 		//Create payload
 		var thisEvent = buildPayload(req.params.endpoint, req.params, req.query, req.body);
 
-    debug("Posting to eventstore: ");
+    debug("Posting to endpoint: ");
     debug(thisEvent);
     debug('=============================');
 
@@ -173,14 +173,15 @@ router.route('/:servicename/:endpoint')
 
 	    //send command: url, event, callback
 	    muonSystem.resource.command('muon://'+req.params.servicename+'/'+req.params.endpoint, thisEvent, function(event, payload) {
-	      debug("Event received");
+	      debug("Command received");
 	      debug(payload);
+	      debug('=============================');
 
-	      if (payload.correct == 'true') {
+	      if (payload.correct == 'true' || payload == 'Ok') {
 	        res.json({ message: 'Success'  });
 	      }
 	      else {
-	        res.json({ message: 'Failure' });
+	        res.json({ message: 'Failure' , payload: payload});
 	      }
 	    });
 	  }
