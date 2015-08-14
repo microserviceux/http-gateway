@@ -71,33 +71,32 @@ Would create a new projection called 'zippy' in the 'photon' eventstore. The pro
 
 The following examples are the curl equivalents to the calls made as part of the Mocha testing.
 
-See if the Gateway responds
+See if the Gateway responds:
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/'
 ```
 
-Run the Discovery protocol (TO BE IMPLEMENTED)
+Run the Discovery protocol (TO BE IMPLEMENTED):
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/discover'
 ```
 
-Get a list of available projections from the eventstore called 'photon'
+Get a list of available projections from the eventstore called 'photon':
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection-keys'
 ```
 
-Insert a projection
+Insert a projection into the 'photon' endpoint:
 ```bash
 curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-form-urlencoded" -d 'projectionname=zippy&stream=testing&language=javascript&reduction=***Some+suitably+complicated+JS+function+***' 'http://localhost:9001/photon/projections'
 ```
 
-Add a user via an 'event' to an endpoint called 'photon'
+Add a user via an 'event' to an endpoint called 'photon':
 ```bash
 curl -X POST -H "Cache-Control: no-cache"  -H "Content-Type: application/x-www-form-urlencoded" -d ' first=Charlie&last=Brown&password=peanuts&stream=users&id=00001254' 'http://localhost:9001/photon/events/?item=user'
 ```
 
-Run a projection called 'UserList' on the endpoint 'photon'
-
+Run a projection called 'UserList' on the endpoint 'photon':
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection?projection-name=UserList'
 ```
