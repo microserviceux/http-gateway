@@ -18,19 +18,23 @@ DEBUG=* node app.js
 ```
 
 ## Tests
-These use an empty Photon Eventstore as an endpoint and create a series of users and projections to test the Gateway is working correctly. To run the tests simply change to the mgateway directory in a terminal and then run the mocha tests
+These use an empty Photon Eventstore as an endpoint and create a series of users and projections to test the Gateway is working correctly. To run the tests simply change to the mgateway directory in a terminal and then run the mocha tests. 
 
 ```bash
 cd mgateway
 mocha
 ```
 
+N.B. The Mocha tests assume that you are running the gateway app on your local machine (http://localhost:9001). If the app is running on a different URl, line 4 of the \tests\tests.js file can be modified to point to the new URL.
+
 ## Use
-Currently accepts calls to:
+The Gateway currently accepts calls to:
 * GET localhost:9001/
 * GET localhost:9001/discover
 * GET localhost:9001/*servicename*/*endpoint*
 * POST localhost:9001/*servicename*/*endpoint*
+
+*Aug 2015 - While the discover url responds, the functionality is not yet implmented.**
 
 ### POSTing into the Gateway
 The Gateway uses a combination of query and body (x-www-form-urlencoded) values to pass information.
@@ -67,7 +71,7 @@ Would create a new projection called 'zippy' in the 'photon' eventstore. The pro
 
 The following examples are the curl equivalents to the calls made as part of the Mocha testing.
 
-See if the Gateway respondes
+See if the Gateway responds
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/'
 ```
