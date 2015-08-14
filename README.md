@@ -32,6 +32,37 @@ Currently accepts calls to:
 * GET localhost:9001/*servicename*/*endpoint*
 * POST localhost:9001/*servicename*/*endpoint*
 
+### POSTing into the Gateway
+The Gateway uses a combination of query and body (x-www-form-urlencoded) values to pass information.
+
+#### Events
+To insert an event into an eventstore - use a query parameter to define the type of event and then use the body to pass in the actual contents ('payload') of the event.
+
+```bash
+' first=Charlie&last=Brown&password=peanuts&stream=users&id=00001254' 'http://localhost:9001/photon/events/?item=user'
+```
+
+Creates an event object in the 'photon' eventstore that looks like
+
+```JSON
+{user :{
+    first: Charlie,
+    last: Brown,
+    password: peanuts,
+    stream: users,
+    id: 00001254
+    }}
+```
+
+#### Projections
+To create a new projection in an eventstore we ONLY use body (x-www-form-urlencoded) parameters.
+
+```bash
+'projectionname=zippy&stream=testing&language=javascript&reduction=***Some+suitably+complicated+JS+function+***' 'http://localhost:9001/photon/projections'
+```
+
+Would create a new projection called 'zippy' in the 'photon' eventstore. The projection would work on the 'testing' stream and would perform the function outlined in the reduction string. The reduction function is written in javascript.
+
 ### Examples
 
 The following examples are the curl calls that are the equivalent to part of the Mocha tests.
@@ -51,8 +82,12 @@ Get a list of available projections from the eventstore called 'photon'
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection-keys'
 ```
 
-Add a user via an 'event' to an endpoint called 'photon'
+Insert a projection
+```bash
+curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-form-urlencoded" -d 'projectionname=zippy&stream=testing&language=javascript&reduction=***Some+suitably+complicated+JS+function+***' 'http://localhost:9001/photon/projections'
+```
 
+Add a user via an 'event' to an endpoint called 'photon'
 ```bash
 curl -X POST -H "Cache-Control: no-cache"  -H "Content-Type: application/x-www-form-urlencoded" -d ' first=Charlie&last=Brown&password=peanuts&stream=users&id=00001254' 'http://localhost:9001/photon/events/?item=user'
 ```
