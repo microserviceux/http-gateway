@@ -3,7 +3,7 @@ var expect = require("chai").expect;
 var supertest = require("supertest");
 var api = supertest("http://localhost:9001");
 
-describe('DemoApp API Testing ', function(){
+describe('Http <-> Muon Gateway Testing ', function(){
 
     //Check API is up
     it('should return a Default response', function(done){
@@ -69,7 +69,7 @@ describe('DemoApp API Testing ', function(){
             projectionname: "UserList",
             stream: "users",
             language: "javascript",
-            reduction: "function eventHandler(state, event) { var user = event.payload.user;  var key = user.last.replace(\/ \/g,\'\'); if (!(key in state)) { state[key] = {};  } state[key].id = user.id;  state[key].fullname = user.first + \' \' + user.last;  var username = null;  if(user.last.length > 8) {   username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();  }  else {    username = (user.last + user.first.charAt(0)).toLowerCase();  }  state[key].username = username.replace(\/ \/g,\'\');  state[key].first = user.first;  state[key].last = user.last;  state[key].password = user.password;  return state;}"
+            reduction: "function eventHandler(state, event) {\r\n\r\n  var user = event.payload.user;\r\n\r\n  var key = user.last.replace(\/ \/g,\'\');\r\n\r\n  if (!(key in state)) {\r\n    state[key] = {};\r\n  }\r\n\r\n  state[key].id = user.id;\r\n  state[key].fullname = user.first + \' \' + user.last;\r\n\r\n  var username = null;\r\n\r\n  if(user.last.length > 8) {\r\n    username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();\r\n  }\r\n  else {\r\n    username = (user.last + user.first.charAt(0)).toLowerCase();\r\n  }\r\n\r\n  state[key].username = username.replace(\/ \/g,\'\');\r\n  state[key].first = user.first;\r\n  state[key].last = user.last;\r\n  state[key].password = user.password;\r\n\r\n  return state;\r\n}"
         })
         .expect(200)
         .end(function(err, res){

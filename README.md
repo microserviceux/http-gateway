@@ -100,5 +100,3 @@ Run a projection called 'UserList' on the endpoint 'photon':
 ```bash
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection?projection-name=UserList'
 ```
-
-Developed & Tested using PostMan.
