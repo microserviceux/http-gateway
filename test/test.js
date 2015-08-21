@@ -1,3 +1,7 @@
+//Options for Mocha-Unfunk-Reporter
+process.env['mocha-unfunk-style'] = 'html';
+
+//Normal Mocha requirements
 var should = require("chai").should();
 var expect = require("chai").expect;
 var supertest = require("supertest");
@@ -15,7 +19,7 @@ describe('Http <-> Muon Gateway Testing ', function(){
             expect(res.body).to.have.property("message");
 
             expect(res.body.message).not.to.equal(null);
-            
+
             expect(res.body.message).to.equal("Default Gateway response!");
             done();
         });
@@ -31,7 +35,7 @@ describe('Http <-> Muon Gateway Testing ', function(){
             expect(res.body).to.have.property("message");
 
             expect(res.body.message).not.to.equal(null);
-            
+
             expect(res.body.message).to.equal("Default DISCOVERY response!");
             done();
         });
@@ -59,7 +63,7 @@ describe('Http <-> Muon Gateway Testing ', function(){
 
             done();
         });
-    }); 
+    });
 
     //Insert Projection
     it('should insert a new projection', function(done){
