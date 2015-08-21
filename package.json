@@ -27,6 +27,7 @@
     "colors": "^1.1.2",
     "express": "^4.13.3",
     "muon-core": "39.1.0-0",
+    "restify": "^4.0.0",
     "stack-trace": "0.0.9",
     "uuid": "^2.0.1",
     "winston": "^1.0.1"

@@ -6,11 +6,11 @@ var muonCore		= require("muon-core");
 var uuid				= require("uuid");
 var Logger 			= require('./lib/logging/logger');
 
-var debug				= require('debug')("Gateway");
+var debug				= require('debug')("Gateway_v1");
 
 //************ Define Gateway App ************
 var app        	= express();
-var port     	= 9001; 
+var port     	= 9001;
 var myConfig	= {};
 
 // configure body parser
@@ -51,16 +51,16 @@ function buildPayload(type, url, query, bod) {
 
 	//check for projection or event
 	if (type === 'projections') {
-		
+
 		debug('New projection requested');
 
-		var projName 	= query['projectionname'] || bod['projectionname'];
-		var lang 			= query['language'] || bod['language'];
-		var reduction = bod.reduction;
+		var projName     = query['projectionname'] || bod['projectionname'];
+		var lang 		     = query['language'] || bod['language'];
+		var reduction 	 = bod.reduction;
 
 		//Create projection object for injection into EventStore
   	thisEvent = {
-									"projection-name" : 	projName,
+			           "projection-name" : 	projName,
                   "stream-name" 		: 	stream,
                   "language" 				: 	lang,
                   "initial-value" 	: 	'{}',
@@ -81,11 +81,11 @@ function buildPayload(type, url, query, bod) {
 
 		//Create event object for injection into EventStore
    	thisEvent = {
-									"service-id"	: 		'muon://' + url.servicename + '/' + url.endpoint, 
-									"local-id"		: 		uuid.v4(), 
-									"payload"			: 		thisPayload, 
-									"stream-name"	: 		stream, 
-									"server-timestamp": Date.now() 
+									"service-id"	: 		'muon://' + url.servicename + '/' + url.endpoint,
+									"local-id"		: 		uuid.v4(),
+									"payload"			: 		thisPayload,
+									"stream-name"	: 		stream,
+									"server-timestamp": Date.now()
 								};
 
    	return thisEvent;
@@ -123,8 +123,8 @@ router.route('/discover')
 router.route('/:servicename/:endpoint')
 
 	// go to the service endpoint
-	.get(function(req, res) {	
-		
+	.get(function(req, res) {
+
 		debug(req.query);
 
 		debug("Attempting to get to the " + req.params.endpoint + " on " + req.params.servicename);
