@@ -84,6 +84,24 @@ describe('Http <-> Muon Gateway Testing ', function(){
         });
     });
 
+    //Insert Second Projection
+    it('should insert a second projection', function(done){
+        api.post('/photon/projections')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({
+            projectionname: "UserInfo",
+            stream: "users",
+            language: "javascript",
+            reduction: "function eventHandler(state, event) {\r\n  var user = event.payload.user;\r\n  if (!(user.id in state)) {\r\n    state[user.id] = {};\r\n  }\r\n  state[user.id].id = user.id;\r\n  state[user.id].fullname = user.first + \' \' + user.last;\r\n  var username = null;\r\n  if(user.last.length > 8) {\r\n    username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();\r\n  }\r\n  else {\r\n    username = (user.last + user.first.charAt(0)).toLowerCase();\r\n  }\r\n  state[user.id].username = username.replace(\/ \/g,\'\');\r\n  state[user.id].first = user.first;\r\n  state[user.id].last = user.last;\r\n  state[user.id].password = user.password;\r\n  return state;\r\n}"
+        })
+        .expect(200)
+        .end(function(err, res){
+            expect(res.body).not.to.equal(null);
+            expect(res.body).to.have.property("message");
+            expect(res.body.message).to.equal("Success");
+            done();
+        });
+    });
 
     //Return Empty Projection result
     it('should get an empty object back from the initial projection return', function(done){
