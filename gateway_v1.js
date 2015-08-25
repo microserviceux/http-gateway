@@ -1,49 +1,32 @@
 //************ Setup ************
 // call the packages we need
-var express    	= require('express');
-var bodyParser 	= require('body-parser');
+var express     = require('express');
+var bodyparser  = require('body-parser');
 var muonCore		= require("muon-core");
 var uuid				= require("uuid");
-var Logger 			= require('./lib/logging/logger');
+var Logger      = require('./lib/logging/logger');
 
 var debug				= require('debug')("Gateway_v1");
 
 //************ Define Gateway App ************
-var app        	= express();
-var port     	= 9001;
-var myConfig	= {};
+var app       = express();
+var port      = 9001;
+var myConfig  = {};
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //************ Muon Start ************
-
-//set amqp server address from environment
-try{
-  myConfig.server = process.env.AMQP_URL;
-
-  if(!myConfig.server){
-    logger.info('no AMQP_SERVER provided by environment defaulting to amqp://muon:microservices@localhost:5672');
-    myConfig.server = 'amqp://muon:microservices@localhost:5672';
-  }
-
-  logger.info('Connecting to AMQP server - ' + myConfig.server);
-  var amqp = muonCore.amqpTransport(myConfig.server);
-
-  //Define muon instance for the communications to use
-  var muonSystem = muonCore.muon(myConfig.servicename, amqp.getDiscovery(), [
-      ["my-tag", "tck-service", "node-service"]
-  ]);
-
-  //Connect transport stream to the instance
-  muonSystem.addTransport(amqp);
+try {
+  var muonSystem = new muonCore.generateMuon();
 }
 catch(err){
-  console.error('Could not connect to AMQP server');
+  console.error('Could not create muonSystem');
   console.error(err);
 }
-//************ Start FUnctions ************
+
+//************ Start Functions ************
 function buildPayload(type, url, query, bod) {
 	var thisEvent = {};
 
@@ -60,12 +43,12 @@ function buildPayload(type, url, query, bod) {
 
 		//Create projection object for injection into EventStore
   	thisEvent = {
-			           "projection-name" : 	projName,
-                  "stream-name" 		: 	stream,
-                  "language" 				: 	lang,
-                  "initial-value" 	: 	'{}',
-                  "filter" 					: 	"",
-                  "reduction" 			: 	reduction
+		              "projection-name" : 	projName,
+                  "stream-name"     :   stream,
+                  "language"        : 	lang,
+                  "initial-value"   : 	'{}',
+                  "filter"          : 	"",
+                  "reduction"       : 	reduction
                 };
 
 		return thisEvent;

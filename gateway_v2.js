@@ -27,30 +27,14 @@ server.use(restify.bodyParser(
 
 //************ Muon Start ************
 
-//set amqp server address from environment
-try{
-  myConfig.server = process.env.AMQP_URL;
-
-  if(!myConfig.server){
-    logger.info('no AMQP_SERVER provided by environment defaulting to amqp://muon:microservices@localhost:5672');
-    myConfig.server = 'amqp://muon:microservices@localhost:5672';
-  }
-
-  logger.info('Connecting to AMQP server - ' + myConfig.server);
-  var amqp = muonCore.amqpTransport(myConfig.server);
-
-  //Define muon instance for the communications to use
-  var muonSystem = muonCore.muon(myConfig.servicename, amqp.getDiscovery(), [
-      ["my-tag", "tck-service", "node-service"]
-  ]);
-
-  //Connect transport stream to the instance
-  muonSystem.addTransport(amqp);
+try {
+  var muonSystem = new muonCore.generateMuon();
 }
 catch(err){
-  console.error('Could not connect to AMQP server');
+  console.error('Could not create muonSystem');
   console.error(err);
 }
+
 
 //************ Start Functions ************
 function buildPayload(type, url, query, bod) {
@@ -110,8 +94,16 @@ server.get('/', function(req, res) {
   return next();
 });
 
+
+server.get('/tests', restify.serveStatic({
+  directory: '.'
+}));
+
+
 server.get('/discover', function(req, res) {
   res.json({ message: 'Default DISCOVERY response!' });
+
+  return next();
 });
 
 
@@ -185,8 +177,6 @@ server.post('/:servicename/:endpoint', function(req, res, next) {
 
   return next();
 });
-
-
 
 
 server.listen(port, function() {
