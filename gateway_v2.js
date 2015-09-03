@@ -114,7 +114,7 @@ server.get('/:servicename/:endpoint', function(req, res, next) {
 
   try{
     //query: url, callback, params
-    muonSystem.resource.query('muon://'+req.params.servicename+'/'+req.params.endpoint, function(event, payload) {
+    muonSystem.query('muon://'+req.params.servicename+'/'+req.params.endpoint, function(event, payload) {
 
       debug('-------------------------');
       debug(event);
@@ -158,7 +158,7 @@ server.post('/:servicename/:endpoint', function(req, res, next) {
   if (typeof thisEvent !== 'undefined') {
 
     //send command: url, event, callback
-    muonSystem.resource.command('muon://'+req.params.servicename+'/'+req.params.endpoint, thisEvent, function(event, payload) {
+    muonSystem.command('muon://'+req.params.servicename+'/'+req.params.endpoint, thisEvent, function(event, payload) {
       debug("Command received");
       debug(payload);
       debug('-------------------------');

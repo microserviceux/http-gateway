@@ -37,18 +37,18 @@ function buildPayload(type, url, query, bod) {
 
 		debug('New projection requested');
 
-		var projName     = query['projectionname'] || bod['projectionname'];
-		var lang 		     = query['language'] || bod['language'];
-		var reduction 	 = bod.reduction;
+		var projName    = query['projectionname'] || bod['projectionname'];
+		var lang 		    = query['language'] || bod['language'];
+		var reduction		= bod.reduction;
 
 		//Create projection object for injection into EventStore
-  	thisEvent = {
-		              "projection-name" : 	projName,
-                  "stream-name"     :   stream,
-                  "language"        : 	lang,
-                  "initial-value"   : 	'{}',
-                  "filter"          : 	"",
-                  "reduction"       : 	reduction
+		thisEvent = {
+									"projection-name" : projName,
+                  "stream-name"     : stream,
+                  "language"        : lang,
+                  "initial-value"   : '{}',
+                  "filter"          : "",
+                  "reduction"       : reduction
                 };
 
 		return thisEvent;
@@ -63,15 +63,15 @@ function buildPayload(type, url, query, bod) {
 		thisPayload[item] = bod;
 
 		//Create event object for injection into EventStore
-   	thisEvent = {
-									"service-id"	: 		'muon://' + url.servicename + '/' + url.endpoint,
-									"local-id"		: 		uuid.v4(),
-									"payload"			: 		thisPayload,
-									"stream-name"	: 		stream,
+		thisEvent = {
+									"service-id"			: 'muon://' + url.servicename + '/' + url.endpoint,
+									"local-id"				: uuid.v4(),
+									"payload"					: thisPayload,
+									"stream-name"			: stream,
 									"server-timestamp": Date.now()
 								};
 
-   	return thisEvent;
+		return thisEvent;
 
 	}
 }
@@ -112,34 +112,34 @@ router.route('/:servicename/:endpoint')
 
 		debug("Attempting to get to the " + req.params.endpoint + " on " + req.params.servicename);
 
-	    try{
-	      //query: url, callback, params
-	      muonSystem.resource.query('muon://'+req.params.servicename+'/'+req.params.endpoint, function(event, payload) {
+		try{
+		  //query: url, callback, params
+		  muonSystem.query('muon://'+req.params.servicename+'/'+req.params.endpoint, function(event, payload) {
 
-	        debug('-------------------------');
-	        debug(event);
-	        debug('-------------------------');
-	        debug(payload);
-	        debug('-------------------------');
-	        debug("Returned something from Service endpoint");
+		    debug('-------------------------');
+		    debug(event);
+		    debug('-------------------------');
+		    debug(payload);
+		    debug('-------------------------');
+		    debug("Returned something from Service endpoint");
 
-	        //Separate results if necessary
-	        if (payload.hasOwnProperty('current-value')) {
-	        	thisPayload = payload['current-value'];
-	        }
-	        else {
-	        	thisPayload = payload;
-	        }
+		    //Separate results if necessary
+		    if (payload.hasOwnProperty('current-value')) {
+		    	thisPayload = payload['current-value'];
+		    }
+		    else {
+		    	thisPayload = payload;
+		    }
 
-	 				res.json({ message: 'Default GET Service Endpoint response!', service: req.params.servicename,  endpoint: req.params.endpoint, result: thisPayload});
+					res.json({ message: 'Default GET Service Endpoint response!', service: req.params.servicename,  endpoint: req.params.endpoint, result: thisPayload});
 
-	      }, req.query);
-	    }
-	    catch (e) {
-	      debug("There was an error");
-	      debug(e);
-	      res.json({ message: 'There was an error', error: e});
-	    }
+		  }, req.query);
+		}
+		catch (e) {
+		  debug("There was an error");
+		  debug(e);
+		  res.json({ message: 'There was an error', error: e});
+		}
 	})
 
 	// post to the service endpoint
@@ -155,7 +155,7 @@ router.route('/:servicename/:endpoint')
     if (typeof thisEvent !== 'undefined') {
 
 	    //send command: url, event, callback
-	    muonSystem.resource.command('muon://'+req.params.servicename+'/'+req.params.endpoint, thisEvent, function(event, payload) {
+	    muonSystem.command('muon://'+req.params.servicename+'/'+req.params.endpoint, thisEvent, function(event, payload) {
 	      debug("Command received");
 	      debug(payload);
 	      debug('=============================');
