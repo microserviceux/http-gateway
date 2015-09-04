@@ -5,7 +5,7 @@ var muonCore  = require("muon-core");
 var uuid      = require("uuid");
 var Logger    = require('./lib/logging/logger');
 
-var debug     = require('debug')("Gateway_v2");
+var debug     = require('debug')("MuonGateway");
 
 //************ Define Gateway App ************
 var server = restify.createServer();

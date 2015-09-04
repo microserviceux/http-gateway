@@ -1,6 +1,3 @@
-//Options for Mocha-Unfunk-Reporter
-process.env['mocha-unfunk-style'] = 'html';
-
 //Normal Mocha requirements
 var should = require("chai").should();
 var expect = require("chai").expect;
@@ -154,7 +151,7 @@ describe('Http <-> Muon Gateway Testing ', function(){
     });
 
     //Return Projection
-    it('should get an object back from the listAllUsers', function(done){
+    it('should get an object back from the UserList projection', function(done){
         api.get('/photon/projection?projection-name=UserList')
         .set('Accept', 'application/json')
         .expect(200)

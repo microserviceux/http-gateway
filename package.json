@@ -2,7 +2,7 @@
   "name": "MGateway",
   "version": "0.0.1",
   "description": "HTTP to Muon RESTful API",
-  "main": "app.js",
+  "main": "gateway.js",
   "scripts": {
     "test": "mocha"
   },
@@ -26,7 +26,7 @@
     "callsite": "^1.0.0",
     "colors": "^1.1.2",
     "express": "^4.13.3",
-    "muon-core": "*",
+    "muon-core": "5.3.0",
     "restify": "^4.0.0",
     "stack-trace": "0.0.9",
     "uuid": "^2.0.1",
@@ -36,7 +36,6 @@
     "chai": "^3.2.0",
     "debug": "^2.2.0",
     "mocha": "^2.2.5",
-    "supertest": "^1.0.1",
-    "mocha-unfunk-reporter": "^0.4.0"
+    "supertest": "^1.0.1"
   }
 }
