@@ -18,7 +18,7 @@ server.url = "http://localhost";
 
 //Load cURL handler
 server.pre(restify.pre.userAgentConnection());
-//Load ther handlers
+//Load the handlers
 server.use(restify.queryParser());
 server.use(restify.bodyParser(
   {mapParams: true}
@@ -45,11 +45,11 @@ function buildPayload(type, url, query, bod) {
   //check for projection or event
   if (type === 'projections') {
 
-    debug('New projection requested');
-
     var projName     = query['projectionname'] || bod['projectionname'];
     var lang         = query['language'] || bod['language'];
     var reduction    = bod.reduction;
+
+    debug('New projection requested: ' + projection-name);
 
     //Create projection object for injection into EventStore
     thisEvent = {
@@ -145,8 +145,6 @@ server.get('/:servicename/:endpoint', function(req, res, next) {
 });
 
 server.post('/:servicename/:endpoint', function(req, res, next) {
-
-  debug(req);
 
   //Create payload
   var thisEvent = buildPayload(req.params.endpoint, req.params, req.query, req.body);

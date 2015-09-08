@@ -5,7 +5,8 @@ Check out the git repo., in the directory that is created, run the app.js using 
 ```bash
 git clone https://github.com/cistechfutures/mgateway.git
 cd mgateway
-node app.js
+npm install
+node gateway.js
 ```
 
 For full debug info while the app is running:
@@ -13,12 +14,13 @@ For full debug info while the app is running:
 ```bash
 git clone https://github.com/cistechfutures/mgateway.git
 cd mgateway
+npm install
 export LEVEL=debug
-DEBUG=* node app.js
+DEBUG=* node gateway.js
 ```
 
 ## Tests
-These use an empty Photon Eventstore as an endpoint and create a series of users and projections to test the Gateway is working correctly. To run the tests simply change to the mgateway directory in a terminal and then run the mocha tests. 
+These use an empty Photon Eventstore as an endpoint and create a series of users and projections to test the Gateway is working correctly. To run the tests simply change to the mgateway directory in a terminal and then run the mocha tests.
 
 ```bash
 cd mgateway
@@ -93,7 +95,7 @@ curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-fo
 
 Add a user via an 'event' to an endpoint called 'photon':
 ```bash
-curl -X POST -H "Cache-Control: no-cache"  -H "Content-Type: application/x-www-form-urlencoded" -d ' first=Charlie&last=Brown&password=peanuts&stream=users&id=00001254' 'http://localhost:9001/photon/events/?item=user'
+curl -X POST -H "Cache-Control: no-cache"  -H "Content-Type: application/x-www-form-urlencoded" -d ' first=Charlie&last=Brown&password=peanuts&stream=users&id=00001254' 'http://localhost:9001/photon/events?item=user'
 ```
 
 Run a projection called 'UserList' on the endpoint 'photon':
