@@ -28,7 +28,7 @@ server.use(restify.bodyParser(
 //************ Muon Start ************
 
 try {
-  var muonSystem = new muonCore.generateMuon();
+  var muonSystem = new muonCore.generateMuon("http-gateway");
 }
 catch(err){
   console.error('Could not create muonSystem');
