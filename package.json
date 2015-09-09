@@ -4,6 +4,7 @@
   "description": "HTTP to Muon RESTful API",
   "main": "gateway.js",
   "scripts": {
+    "start": "node gateway.js",
     "test": "mocha"
   },
   "repository": {
@@ -26,7 +27,7 @@
     "callsite": "^1.0.0",
     "colors": "^1.1.2",
     "express": "^4.13.3",
-    "muon-core": "*",
+    "muon-core": "5.4.4",
     "restify": "^4.0.0",
     "stack-trace": "0.0.9",
     "uuid": "^2.0.1",
